@@ -1,4 +1,4 @@
-# render.yaml (最終日誌修正版)
+# render.yaml (最終快取修正版)
 
 databases:
   - name: laravel-db
@@ -11,6 +11,7 @@ services:
     plan: free
     dockerfilePath: ./Dockerfile
     buildCommand: |
+      php artisan config:clear  # <<< 新增這一行
       php artisan key:generate --force
       php artisan migrate --force
     envVars:
@@ -18,8 +19,8 @@ services:
         value: https://laravel-app.onrender.com
       - key: DB_CONNECTION
         value: pgsql
-      - key: LOG_CHANNEL   # <<< 新增這一行，強制日誌輸出到標準錯誤流
-        value: stderr      # <<< 新增這一行
+      - key: LOG_CHANNEL
+        value: stderr
       - key: DB_URL
         fromDatabase:
           name: laravel-db
