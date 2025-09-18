@@ -1,4 +1,4 @@
-# 最終標準版 render.yaml
+# 最終極簡版 render.yaml
 
 databases:
   - name: laravel-db
@@ -10,9 +10,7 @@ services:
     runtime: docker
     plan: free
     dockerfilePath: ./Dockerfile
-    buildCommand: |
-      php artisan config:cache
-      php artisan migrate --force
+    buildCommand: php artisan migrate --force # <<< 只留下資料庫遷移指令
     envVars:
       - key: APP_KEY
         generateValue: true
