@@ -1,26 +1,26 @@
+# render.yaml (最終正確版本)
+
+databases:
+  - name: laravel-db   # 這是您資料庫服務的名稱
+    plan: free         # 指定使用免費方案
+
 services:
-  # 這是您的 Laravel API 服務
   - type: web
-    name: laravel-test-project
+    name: laravel-app    # 這是您 Laravel 應用程式的名稱
     env: php
-    plan: free # 指定使用免費方案
-    buildCommanad: |
+    plan: free
+    buildCommand: |
       composer install --no-dev --optimize-autoloader
       php artisan key:generate --force
       php artisan migrate --force
     startCommand: php artisan serve --host=0.0.0.0 --port=${PORT}
     envVars:
       - key: APP_URL
-        # 請將 YOUR_APP_NAME 換成您服務的名稱，例如 laravel-test-project
-        value: https://laravel-test-project.onrender.com 
+        # 請將 laravel-app 換成您上面 services 的 name
+        value: https://laravel-app.onrender.com
       - key: DB_CONNECTION
         value: pgsql
       - key: DB_URL
         fromDatabase:
-          name: laravel-test # 這裡要填您在 Render 上建立的資料庫名稱
+          name: laravel-db  # 這裡的名稱，必須和上面 databases 的 name 完全一樣
           property: internalDatabaseUrl
-
-  # 這是您的資料庫服務
-  - type: postgres
-    name: laravel-test # 這裡的名稱必須和上面 fromDatabase 的名稱一致
-    plan: free # 指定使用免費方案
