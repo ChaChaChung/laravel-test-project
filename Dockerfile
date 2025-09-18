@@ -2,9 +2,6 @@
 FROM php:8.2-cli-alpine
 
 # 安裝系統依賴套件與 PHP 擴充套件
-# git 是 composer 需要的
-# libzip-dev 是 zip 擴充套件需要的
-# pdo_pgsql 是 Laravel 連接 PostgreSQL 需要的
 RUN apk add --no-cache git libzip-dev && \
     docker-php-ext-install pdo pdo_pgsql zip
 
@@ -17,4 +14,8 @@ WORKDIR /app
 # 將專案所有檔案複製到工作目錄中
 COPY . .
 
-# Render 會透過 render.yaml 的 startCommand 來啟動服務，所以這裡不需要 CMD
+# 告訴 Docker 容器要開放哪個連接埠
+EXPOSE 10000
+
+# 定義容器啟動時要執行的預設指令
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=10000"]
