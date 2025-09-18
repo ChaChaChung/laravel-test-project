@@ -2,7 +2,6 @@
 FROM php:8.2-cli-alpine
 
 # 安裝系統依賴套件與 PHP 擴充套件
-# 新增了 postgresql-dev 來解決編譯 pdo_pgsql 的問題
 RUN apk add --no-cache git libzip-dev postgresql-dev && \
     docker-php-ext-install pdo pdo_pgsql zip
 
@@ -12,8 +11,17 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # 設定工作目錄
 WORKDIR /app
 
-# 將專案所有檔案複製到工作目錄中
+# 僅複製 composer 相關檔案
+COPY composer.json composer.lock ./
+
+# 安裝依賴套件 (這會產生 vendor 目錄)
+RUN composer install --no-dev --no-scripts --optimize-autoloader
+
+# 複製應用程式的其他所有檔案
 COPY . .
+
+# 重新執行 autoloader scripts
+RUN composer dump-autoload --optimize
 
 # 告訴 Docker 容器要開放哪個連接埠
 EXPOSE 10000

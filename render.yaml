@@ -1,4 +1,4 @@
-# render.yaml (最終 Docker 版本)
+# render.yaml (最終 Docker 修正版 v2)
 
 databases:
   - name: laravel-db
@@ -11,7 +11,6 @@ services:
     plan: free
     dockerfilePath: ./Dockerfile
     buildCommand: |
-      composer install --no-dev --optimize-autoloader
       php artisan key:generate --force
       php artisan migrate --force
     envVars:
