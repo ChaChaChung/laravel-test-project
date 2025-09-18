@@ -18,4 +18,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/get/seo-data', 'CTL_Seo_Data@Get_Seo_Data');
+Route::get('/get/seo-data', [App\Http\Controllers\CTL_Seo_Data::class, 'Get_Seo_Data']);
