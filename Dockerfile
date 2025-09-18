@@ -1,4 +1,4 @@
-# 最終簡化版 Dockerfile
+# 最終啟動腳本版 Dockerfile
 FROM php:8.2-cli-alpine
 
 # 安裝 Laravel 需要的系統依賴和 PHP 擴充套件
@@ -20,8 +20,12 @@ COPY . .
 # 產生優化過的 autoloader
 RUN composer dump-autoload --optimize --no-scripts
 
+# 複製並設定啟動腳本的權限
+COPY start.sh .
+RUN chmod +x ./start.sh
+
 # 開放連接埠
 EXPOSE 10000
 
-# 預設啟動指令
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=10000"]
+# 將啟動腳本設為預設啟動指令
+CMD ["./start.sh"]

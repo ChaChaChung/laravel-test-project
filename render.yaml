@@ -10,7 +10,7 @@ services:
     runtime: docker
     plan: free
     dockerfilePath: ./Dockerfile
-    buildCommand: php artisan migrate --force # <<< 只留下資料庫遷移指令
+    # buildCommand 已被移除，所有邏輯都在 start.sh 中
     envVars:
       - key: APP_KEY
         generateValue: true
