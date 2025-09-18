@@ -1,4 +1,4 @@
-# render.yaml (最終 APP_KEY 修正版)
+# render.yaml (最終 php.ini 修正版)
 
 databases:
   - name: laravel-db
@@ -11,11 +11,10 @@ services:
     plan: free
     dockerfilePath: ./Dockerfile
     buildCommand: |
-      php artisan config:clear
       php artisan migrate --force
     envVars:
       - key: APP_KEY
-        value: base64:covxPoDo79WWbxDQpgJDh2QLeuCf/S04zi3WS7BxEiQ=
+        generateValue: true # 讓 Render 自動產生並管理 APP_KEY
       - key: APP_URL
         value: https://laravel-app.onrender.com
       - key: DB_CONNECTION
