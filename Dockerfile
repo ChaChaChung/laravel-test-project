@@ -33,8 +33,8 @@ WORKDIR /app
 # 從建置階段複製已安裝好的 vendor 目錄和所有程式碼
 COPY --from=builder /app .
 
-# 重新執行 autoloader scripts，同樣禁用 php.ini
-RUN php -n /usr/bin/composer dump-autoload --optimize
+# 重新執行 autoloader scripts，同樣禁用 php.ini 且不執行任何腳本
+RUN php -n /usr/bin/composer dump-autoload --optimize --no-scripts
 
 # 告訴 Docker 容器要開放哪個連接埠
 EXPOSE 10000
