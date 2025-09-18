@@ -2,7 +2,8 @@
 FROM php:8.2-cli-alpine
 
 # 安裝系統依賴套件與 PHP 擴充套件
-RUN apk add --no-cache git libzip-dev && \
+# 新增了 postgresql-dev 來解決編譯 pdo_pgsql 的問題
+RUN apk add --no-cache git libzip-dev postgresql-dev && \
     docker-php-ext-install pdo pdo_pgsql zip
 
 # 從官方 Composer 映像檔中複製 Composer 執行檔
