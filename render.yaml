@@ -1,4 +1,4 @@
-# render.yaml
+# render.yaml (最終 Docker 版本)
 
 databases:
   - name: laravel-db
@@ -7,9 +7,11 @@ databases:
 services:
   - type: web
     name: laravel-app
-    runtime: php      # 確認這一行
-    phpVersion: '8.2'  # <<< 新增這一行來指定版本
+    runtime: docker   # <<< 關鍵修正：將 runtime 指定為 docker
     plan: free
+    # Docker 相關設定
+    dockerfilePath: ./Dockerfile
+    # 建置和啟動指令會在我們上面定義的 Docker 環境中執行
     buildCommand: |
       composer install --no-dev --optimize-autoloader
       php artisan key:generate --force
