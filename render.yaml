@@ -1,4 +1,4 @@
-# render.yaml (最終修正版 v2)
+# render.yaml
 
 databases:
   - name: laravel-db
@@ -7,7 +7,8 @@ databases:
 services:
   - type: web
     name: laravel-app
-    runtime: php      # <<< 修正 #1: 從 env: php 改為 runtime: php
+    runtime: php      # 確認這一行
+    phpVersion: '8.2'  # <<< 新增這一行來指定版本
     plan: free
     buildCommand: |
       composer install --no-dev --optimize-autoloader
@@ -16,11 +17,10 @@ services:
     startCommand: php artisan serve --host=0.0.0.0 --port=${PORT}
     envVars:
       - key: APP_URL
-        # 請記得將 laravel-app 換成您上面 services 的 name
         value: https://laravel-app.onrender.com
       - key: DB_CONNECTION
         value: pgsql
       - key: DB_URL
         fromDatabase:
           name: laravel-db
-          property: connectionString # <<< 修正 #2: 從 internalDatabaseUrl 改為 connectionString
+          property: connectionString
