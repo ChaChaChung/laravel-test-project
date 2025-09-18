@@ -21,6 +21,6 @@ services:
           property: internalDatabaseUrl
 
   # 這是您的資料庫服務
-  - type: psql
+  - type: postgres
     name: laravel-test # 這裡的名稱必須和上面 fromDatabase 的名稱一致
     plan: free # 指定使用免費方案
