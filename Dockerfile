@@ -19,7 +19,7 @@ WORKDIR /app
 # 僅複製 composer 相關檔案
 COPY composer.json composer.lock ./
 
-# 安裝依賴套件，並暫時禁用 php.ini 以避免 render.ini 找不到的錯誤
+# 安裝依賴套件，並暫時禁用 php.ini
 RUN php -n /usr/bin/composer install --no-dev --no-scripts --optimize-autoloader
 
 # 複製應用程式的其他所有檔案
@@ -33,8 +33,8 @@ WORKDIR /app
 # 從建置階段複製已安裝好的 vendor 目錄和所有程式碼
 COPY --from=builder /app .
 
-# 重新執行 autoloader scripts
-RUN composer dump-autoload --optimize
+# 重新執行 autoloader scripts，同樣禁用 php.ini
+RUN php -n /usr/bin/composer dump-autoload --optimize
 
 # 告訴 Docker 容器要開放哪個連接埠
 EXPOSE 10000
