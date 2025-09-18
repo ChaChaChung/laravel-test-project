@@ -1,4 +1,4 @@
-# render.yaml (最終 Docker 修正版)
+# render.yaml (最終 Docker 版本)
 
 databases:
   - name: laravel-db
@@ -14,7 +14,6 @@ services:
       composer install --no-dev --optimize-autoloader
       php artisan key:generate --force
       php artisan migrate --force
-    # startCommand: ...  <--- 這一行已根據錯誤訊息移除
     envVars:
       - key: APP_URL
         value: https://laravel-app.onrender.com
