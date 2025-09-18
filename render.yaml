@@ -1,13 +1,13 @@
-# render.yaml (最終正確版本)
+# render.yaml (最終修正版 v2)
 
 databases:
-  - name: laravel-db   # 這是您資料庫服務的名稱
-    plan: free         # 指定使用免費方案
+  - name: laravel-db
+    plan: free
 
 services:
   - type: web
-    name: laravel-app    # 這是您 Laravel 應用程式的名稱
-    env: php
+    name: laravel-app
+    runtime: php      # <<< 修正 #1: 從 env: php 改為 runtime: php
     plan: free
     buildCommand: |
       composer install --no-dev --optimize-autoloader
@@ -16,11 +16,11 @@ services:
     startCommand: php artisan serve --host=0.0.0.0 --port=${PORT}
     envVars:
       - key: APP_URL
-        # 請將 laravel-app 換成您上面 services 的 name
+        # 請記得將 laravel-app 換成您上面 services 的 name
         value: https://laravel-app.onrender.com
       - key: DB_CONNECTION
         value: pgsql
       - key: DB_URL
         fromDatabase:
-          name: laravel-db  # 這裡的名稱，必須和上面 databases 的 name 完全一樣
-          property: internalDatabaseUrl
+          name: laravel-db
+          property: connectionString # <<< 修正 #2: 從 internalDatabaseUrl 改為 connectionString
