@@ -1,0 +1,26 @@
+services:
+  # 這是您的 Laravel API 服務
+  - type: web
+    name: laravel-test-project
+    env: php
+    plan: free # 指定使用免費方案
+    buildCommanad: |
+      composer install --no-dev --optimize-autoloader
+      php artisan key:generate --force
+      php artisan migrate --force
+    startCommand: php artisan serve --host=0.0.0.0 --port=${PORT}
+    envVars:
+      - key: APP_URL
+        # 請將 YOUR_APP_NAME 換成您服務的名稱，例如 laravel-test-project
+        value: https://laravel-test-project.onrender.com 
+      - key: DB_CONNECTION
+        value: pgsql
+      - key: DB_URL
+        fromDatabase:
+          name: laravel-test # 這裡要填您在 Render 上建立的資料庫名稱
+          property: internalDatabaseUrl
+
+  # 這是您的資料庫服務
+  - type: psql
+    name: laravel-test # 這裡的名稱必須和上面 fromDatabase 的名稱一致
+    plan: free # 指定使用免費方案
